@@ -52,11 +52,63 @@ public class Gradebook {
   public int assignmentCount() {
       return assignmentList.size();
   }
+  /* Return Assignment if exists*/
+  public Assignment findAssignment(String name) {
+    if (this.assignments.containsKey(name)) {
+      return this.assignments.get(name);
+    } else {
+      return null;
+    }
+  }
+
+  /*Return Student if exists*/
+  public Student findStudent(String first, String last) {
+    String name = last + " " + first;
+
+    if (this.students.containsKey(name)) {
+      return this.students.get(name);
+    } else {
+      return null;
+    }
+  }
 
   /* Adds a student to the gradebook */
-  public void addStudent(String fName, String lName) {
-        Student toAdd = new Student(fName, lName);
-        studentList.add(toAdd);
+
+  public void addStudent(String first, String last) {
+
+    // Student is already found
+    if (this.findStudent(first, last) != null) {
+      System.out.println("student already exists, try again");
+    
+    }
+
+    // Create a newStudent
+    Student newStudent = new Student(first, last);
+
+    // Assignments with a score of 0
+    for (Assignment a : this.getAssignments().values()) {
+      newStudent.getAssignmentGrades().put(a, 0);
+    }
+
+    // Add a new Student
+    this.students.put(last + " " + first, newStudent);
+  }
+    
+  /* Deletes student from the gradebook */
+  public void delStudent(String first, String last) {
+
+    // Student does not exist
+    if (this.findStudent(first, last) == null) {
+      System.out.println("student does not exist");
+      
+    }
+
+    // Remove Student
+    this.students.remove(last +" "+ first);
+    if (this.students.isEmpty()){
+      this.students = new LinkedHashMap<String, Student>();
+    }
+
   }
 
   /* Adds an assignment to the gradebook,
@@ -68,21 +120,38 @@ public class Gradebook {
     totalWeight += weight;
   }
 
-  /* Adds a grade to the gradebook */
-  public void addGrade(String fName, String lName, String aName, int grade) {
-    Student search;
-    for (Student curr : studentList) {
-        if (curr.firstName.equals(fName) && curr.lastName.equals(lName)) {
-            curr.addGrade(aName, grade);
-        }
-    }
-    for (Assignment curr : assignmentList) {
-        if (curr.name == aName) {
-            curr.addStudentGrade(fName, lName, grade);
-        }
-    }
+
+  /* Adds an assinment to the gradebook */
+  public void addAssignment(...) {
+
   }
 
+  /* Adds a grade to the gradebook */
+  public void addGrade(String first, String last, String assignment, int grade) {
+
+    Assignment currAssign = findAssignment(assignment);
+    Student currStudent = findStudent(first, last);
+
+    // Assignment does not exist
+    if (currAssign == null) {
+      System.out.println("assignment does not exist, try again");
+      
+    }
+
+    // Student does not exist
+    if (currStudent == null) {
+      System.out.println("student does not exist");
+      
+    }
+
+    // Grade is negative
+    if (grade < 0) {
+      System.out.println("Grade is invalid");
+ 
+    }
+    // Add/overwrite a grade
+    currStudent.getAssignmentGrades().put(currAssignment, grade);
+  }
   public String toString() {
 
     return "Gradebook name: " + this.bookName + "\n" + "Student List: " + studentList.toString() + 
