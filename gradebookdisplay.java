@@ -71,6 +71,12 @@ public class gradebookdisplay {
 			}
 			String assignName = args[ian+1];
 			
+			// checking for space in name for assignment
+			if (ian+2 < args.length && args[ian+2].charAt(0) != '-') {
+				System.out.println("invalid");
+				System.exit(255);
+			}
+			
 			//search for assignment in the gradebook here
 			if(assignName not in gradebook) {
 				System.out.println("invalid");
@@ -100,7 +106,17 @@ public class gradebookdisplay {
 			}
 			
 			String fName = args[ifn+1];
+			// checking for space in name
+			if (ifn+2 < args.length && args[ifn+2].charAt(0) != '-') {
+				System.out.println("invalid");
+				System.exit(255);
+			}
 			String lName = args[iln+1];
+			// checking for space in name for assignment
+			if (iln+2 < args.length && args[iln+2].charAt(0) != '-') {
+				System.out.println("invalid");
+				System.exit(255);
+			}
 			
 			
 			Student found = NULL;
