@@ -1,5 +1,18 @@
 import java.io.File;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 //import ...
 
@@ -33,12 +46,20 @@ public class gradebookdisplay {
 			System.out.println("invalid");
 			System.exit(255);
 		}
-		String requestedName = new String(args[1]);
-		if (file_test(requestedName) != true) {
-			System.out.println("invalid2");
+		String inputName = new String(args[1]);
+		String mykey = args[3];
+		File GB = new File("./" + inputName);
+		if (!GB.exists()) {
+			System.out.println("invalid");
 			System.exit(255);
 		}
-
+		Gradebook myGB = null;
+		try {
+			myGB = Gradebook.deserializeGradebook((setup.decryptData(args[3], setup.readFile(inputName))));
+		} catch (InvalidKeyException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException | BadPaddingException | IllegalBlockSizeException | InvalidKeySpecException | IOException e) {
+			System.out.println("invalid");
+			System.exit(255);
+		} 
 		
 		
 		System.out.println("\nNumber Of Arguments Passed: %d" + args.length);
@@ -74,20 +95,23 @@ public class gradebookdisplay {
 				System.exit(255);
 			}
 			
-			//search for assignment in the gradebook here
-//			if(assignName not in gradebook) {
-//				System.out.println("invalid");
-//				System.exit(255);
-//			}
+			Assignment test = myGB.findAssignment(assignName);
+		    if (test == null) {
+				System.out.println("invalid");
+				System.exit(255);
+		    }
 			
 			if (ia == -1) {
-				//order by grade here and print output
-				//return answer;
-				System.out.println("grade");
+				test.studentGrades.entrySet().stream()
+                .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
+                .forEach(k -> System.out.println("(" +k.getKey().lastName + ", " + k.getKey().firstName+ ", "+ k.getValue()+ ")" ));
+				//System.out.println("grade");
 			} else {
-				//order by alphabetical here and print output
-				//return answer;
-				System.out.println("alpha");
+				test.studentGrades.entrySet().stream()
+                .sorted((k1, k2) -> -k1.getKey().firstName.compareTo(k2.getKey().firstName))
+                .sorted((k1, k2) -> -k1.getKey().lastName.compareTo(k2.getKey().lastName))
+                .forEach(k -> System.out.println("(" +k.getKey().lastName + ", " + k.getKey().firstName+ ", "+ k.getValue()+ ")" ));
+				//System.out.println("alpha");
 			}
 			
 		}
@@ -118,15 +142,17 @@ public class gradebookdisplay {
 			}
 			
 			
-			//Student found = NULL;
-			//search for student in the gradebook here
-//			if(fName+lName not in gradebook) {
-//				System.out.println("invalid");
-//				System.exit(255);
-//			}
+		    // Student does not exist
+			Student test = myGB.findStudent(fName, lName);
+		    if (test == null) {
+				System.out.println("invalid");
+				System.exit(255);
+		    }
 			
-			//print output here
-			//return answer;
+		    test.grades.entrySet().stream()
+            .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
+            .forEach(k -> System.out.println("(" +k.getKey() + ", "+ k.getValue()+ ")" ));
+			
 		}
 		if (args[4].equals("-PF")) {
 			if (Arrays.asList(args).lastIndexOf("-PS") != -1 || Arrays.asList(args).lastIndexOf("-PA") != -1 
@@ -141,18 +167,36 @@ public class gradebookdisplay {
 				System.out.println("invalid");
 				System.exit(255);
 			}
+			
+			HashMap<Student,Double> finalgrades = new HashMap<Student,Double>();
+			for (Assignment assign : myGB.assignmentList) {
+				for (Entry<Student, Integer> entry : assign.studentGrades.entrySet()) {
+				    Student key = entry.getKey();
+				    int value = entry.getValue();
+				    if(finalgrades.containsKey(key)) {
+				    	finalgrades.put(key, finalgrades.get(key) + ((double)value*assign.weight));
+				    } else {
+				    	finalgrades.put(key, ((double)value*assign.weight));
+				    }
+				}
+			}
+			
 			if (ia == -1) {
-				//order by grade here and print output
-				//return answer;
-				System.out.println("grade1");
+				finalgrades.entrySet().stream()
+                .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
+                .forEach(k -> System.out.println("(" +k.getKey().lastName + ", " + k.getKey().firstName+ ", "+ k.getValue()+ ")" ));
+				//System.out.println("grade");
 			} else {
-				//order by alphabetical here and print output
-				//return answer;
-				System.out.println("alpha1");
+				finalgrades.entrySet().stream()
+                .sorted((k1, k2) -> -k1.getKey().firstName.compareTo(k2.getKey().firstName))
+                .sorted((k1, k2) -> -k1.getKey().lastName.compareTo(k2.getKey().lastName))
+                .forEach(k -> System.out.println("(" +k.getKey().lastName + ", " + k.getKey().firstName+ ", "+ k.getValue()+ ")" ));
+				System.out.println("alpha");
 			}
 			
 		}
 		
 
 	}
+
 }
