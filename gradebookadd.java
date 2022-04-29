@@ -210,8 +210,7 @@ public class gradebookadd {
 		}
 		if (args[4].equals("-AG")) {
 			if (Arrays.asList(args).lastIndexOf("-DS") != -1 || Arrays.asList(args).lastIndexOf("-AA") != -1
-					|| Arrays.asList(args).lastIndexOf("-DA") != -1|| Arrays.asList(args).lastIndexOf("-AG") != -1
-					|| Arrays.asList(args).lastIndexOf("-P") != -1
+					|| Arrays.asList(args).lastIndexOf("-DA") != -1 || Arrays.asList(args).lastIndexOf("-P") != -1
 					|| Arrays.asList(args).lastIndexOf("-W") != -1|| Arrays.asList(args).lastIndexOf("-AS") != -1) {
 				System.out.println("invalid");
 				System.exit(255);
