@@ -40,7 +40,7 @@ public class setup {
     }  
 
     Gradebook created = new Gradebook(requestedName);
-    key = created.getPlainKeyOneTime(requestedName);
+    key = created.getPlainKeyOneTime();
 
     System.out.println("Key is: " + key);
 

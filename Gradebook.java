@@ -1,10 +1,9 @@
+
+//import ...
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-
-//import ...
-
 /**
  * A helper class for your gradebook
  * Some of these methods may be useful for your program
@@ -14,43 +13,29 @@ import java.util.LinkedHashMap;
 public class Gradebook {
 
     String bookName;
-    ArrayList<String> students;
-    /* each assignment has a string containing "name, max-points, weight"; pick these fields up by deliminating on 
-     * commas. the hashMap is of string -> integer. where string is name of student and integer is their
-     * grade. 
-    */
-    LinkedHashMap<String,HashMap<String, Integer>> assignments; 
+    ArrayList<Student> studentList;
+    ArrayList<Assignment> assignmentList;
     //keyType is TBD
     keyType key; //-> initializes then after requested encrypted and must match to decrypt end-file
-  
+    
   /* Read a Gradebook from a file */
   public Gradebook(String filename) {
     //create a gradebook object
     bookName = filename;
-    /*make sure to input the name as "Last, First" -> then check for duplicate names
-    //deliminate based on commas
-    */
+    studentList = new ArrayList<Student>();
+    assignmentList = new ArrayList<Assignment>();
+
     key = SecureHashRandomThing();
     students = new ArrayList<String>();
     assignments = new LinkedHashMap<String,HashMap<String, Integer>>();
     //pseudo code
     File created = new File(bookName);
+    //pseudo create the file in directory output stream
     created.pushToOutputStream;
   }
 
-  /* Create a new gradebook */
-  public Gradebook() {
-    bookName = "";
-    key = SecureHashRandomThing();
-    students = new ArrayList<String>();
-    assignments = new LinkedHashMap<String,HashMap<String, Integer>>();
-    //pseudo code
-    File created = new File(bookName);
-    created.pushToOutputStream; //create the file in directory output stream
-  }
-
   /* Returns the keyFirst time, do not call multiple times since the key will be encrypted after first call*/
-  public keyType getPlainKeyOneTime(Gradebook requested) {
+  public keyType getPlainKeyOneTime() {
       //pseudo code
       keyType plainKey = requested.key;
       requested.key = encrypt(key);
