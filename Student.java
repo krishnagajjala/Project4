@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.HashMap;
 
 
-public class Student {
+public class Student implements Serializable{
     String firstName;
     String lastName;
     HashMap<Assignment,Integer> grades;
