@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -10,7 +9,7 @@ public class Student {
     public Student(String fName, String lName) {
         firstName = new String(fName);
         lastName = new String(lName);
-        grades = new ArrayList<Assignment>();
+        grades = new HashMap<String,Integer>();
     }
 
     public void addGrade(String assignmentName, int receivedGrade) {
