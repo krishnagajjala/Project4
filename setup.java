@@ -52,7 +52,7 @@ public class setup {
         }
 
         /* add your code here*/
-        if (args[0] != "-N") {
+        if (!args[0].equals("-N")) {
             System.out.println("invalid");
             System.exit(255);
         }
