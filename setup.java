@@ -111,8 +111,8 @@ public class setup {
 
     //helper method to write to a file
     public static void writeFile(String filename, byte[] data) throws IOException {
-
-        try(FileOutputStream fileOutputStream = new FileOutputStream("./"+filename)) {
+        //explicitly make it overwrite via false parameter to constructor
+        try(FileOutputStream fileOutputStream = new FileOutputStream("./"+filename, false)) { 
             fileOutputStream.write(data);
         }
 
