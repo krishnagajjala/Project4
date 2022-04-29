@@ -263,7 +263,6 @@ public class gradebookadd {
 		    test2.studentGrades.put(test, grade);
 
 		}
-		System.out.println("Made it to final serialization");
 		byte[] serializedGradebook = Gradebook.serializeGradebook(myGB);
         //surround encryption with try-catch
         try {
