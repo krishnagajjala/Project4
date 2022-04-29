@@ -47,13 +47,14 @@ public class gradebookadd {
 		}
 		Gradebook myGB = null;
 		try {
-			myGB = Gradebook.deserializeGradebook((setup.decryptData(args[3], setup.readFile(inputName))));
+            byte[] decrypted = setup.decryptData(mykey, setup.readFile(inputName));
+			myGB = Gradebook.deserializeGradebook(decrypted);
 		} catch (InvalidKeyException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException | BadPaddingException | IllegalBlockSizeException | InvalidKeySpecException | IOException e) {
 			System.out.println("invalid");
 			System.exit(255);
 		} 
 		
-		System.out.println("\nNumber Of Arguments Passed: %d" + args.length);
+		System.out.println("\nNumber Of Arguments Passed: " + args.length);
 		System.out.println("----Following Are The Command Line Arguments Passed----");
 		for (int counter = 0; counter < args.length; counter++)
 			System.out.println("args[" + counter + "]: " + args[counter]);
@@ -164,7 +165,7 @@ public class gradebookadd {
 				System.out.println("invalid");
 				System.exit(255);
 		    }
-		    // Remove Student
+		    // Add Student
 		    myGB.studentList.add(new Student(fName, lName));
 			
 
@@ -209,8 +210,7 @@ public class gradebookadd {
 		}
 		if (args[4].equals("-AG")) {
 			if (Arrays.asList(args).lastIndexOf("-DS") != -1 || Arrays.asList(args).lastIndexOf("-AA") != -1
-					|| Arrays.asList(args).lastIndexOf("-DA") != -1|| Arrays.asList(args).lastIndexOf("-AG") != -1
-					|| Arrays.asList(args).lastIndexOf("-P") != -1
+					|| Arrays.asList(args).lastIndexOf("-DA") != -1 || Arrays.asList(args).lastIndexOf("-P") != -1
 					|| Arrays.asList(args).lastIndexOf("-W") != -1|| Arrays.asList(args).lastIndexOf("-AS") != -1) {
 				System.out.println("invalid");
 				System.exit(255);
@@ -262,7 +262,6 @@ public class gradebookadd {
 		    test2.studentGrades.put(test, grade);
 
 		}
-		
 		byte[] serializedGradebook = Gradebook.serializeGradebook(myGB);
         //surround encryption with try-catch
         try {
