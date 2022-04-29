@@ -11,10 +11,7 @@ public class gradebookdisplay {
 	private static boolean file_test(String filename) {
 		String inputName = new String(filename);
 		File seek = new File("./" + inputName);
-		if (seek.exists()) {
-			return false;
-		}
-		return true;
+		return seek.exists();
 	}
 
 	public static void main(String[] args) {
@@ -24,21 +21,21 @@ public class gradebookdisplay {
 			System.out.println("invalid");
 			System.exit(255);
 		}
-		if (!args[1].equals("-N")) {
+		if (!args[0].equals("-N")) {
 			System.out.println("invalid");
 			System.exit(255);
 		}
-		if (!args[3].equals("-K")) {
+		if (!args[2].equals("-K")) {
 			System.out.println("invalid");
 			System.exit(255);
 		}
-		if (!args[5].equals("-PA") && !args[5].equals("-PS") && !args[5].equals("-PF")) {
+		if (!args[4].equals("-PA") && !args[4].equals("-PS") && !args[4].equals("-PF")) {
 			System.out.println("invalid");
 			System.exit(255);
 		}
-		String requestedName = new String(args[2]);
+		String requestedName = new String(args[1]);
 		if (file_test(requestedName) != true) {
-			System.out.println("invalid");
+			System.out.println("invalid2");
 			System.exit(255);
 		}
 
@@ -52,7 +49,7 @@ public class gradebookdisplay {
 		
 		// Decide what is the setting we are in
 		
-		if (args[5].equals("-PA")) {
+		if (args[4].equals("-PA")) {
 			if (Arrays.asList(args).lastIndexOf("-PS") != -1 || Arrays.asList(args).lastIndexOf("-PF") != -1 
 					|| Arrays.asList(args).lastIndexOf("-FN") != -1 || Arrays.asList(args).lastIndexOf("-LN") != -1) {
 				System.out.println("invalid");
@@ -78,21 +75,23 @@ public class gradebookdisplay {
 			}
 			
 			//search for assignment in the gradebook here
-			if(assignName not in gradebook) {
-				System.out.println("invalid");
-				System.exit(255);
-			}
+//			if(assignName not in gradebook) {
+//				System.out.println("invalid");
+//				System.exit(255);
+//			}
 			
 			if (ia == -1) {
 				//order by grade here and print output
-				return answer;
+				//return answer;
+				System.out.println("grade");
 			} else {
 				//order by alphabetical here and print output
-				return answer;
+				//return answer;
+				System.out.println("alpha");
 			}
 			
 		}
-		if (args[5].equals("-PS")) {
+		if (args[4].equals("-PS")) {
 			if (Arrays.asList(args).lastIndexOf("-PF") != -1 || Arrays.asList(args).lastIndexOf("-PA") != -1
 					|| Arrays.asList(args).lastIndexOf("-AN") != -1) {
 				System.out.println("invalid");
@@ -119,17 +118,17 @@ public class gradebookdisplay {
 			}
 			
 			
-			Student found = NULL;
+			//Student found = NULL;
 			//search for student in the gradebook here
-			if(fName+lName not in gradebook) {
-				System.out.println("invalid");
-				System.exit(255);
-			}
+//			if(fName+lName not in gradebook) {
+//				System.out.println("invalid");
+//				System.exit(255);
+//			}
 			
 			//print output here
-			return answer;
+			//return answer;
 		}
-		if (args[5].equals("-PF")) {
+		if (args[4].equals("-PF")) {
 			if (Arrays.asList(args).lastIndexOf("-PS") != -1 || Arrays.asList(args).lastIndexOf("-PA") != -1 
 					|| Arrays.asList(args).lastIndexOf("-FN") != -1 || Arrays.asList(args).lastIndexOf("-LN") != -1 
 					|| Arrays.asList(args).lastIndexOf("-AN") != -1) {
@@ -144,10 +143,12 @@ public class gradebookdisplay {
 			}
 			if (ia == -1) {
 				//order by grade here and print output
-				return answer;
+				//return answer;
+				System.out.println("grade1");
 			} else {
 				//order by alphabetical here and print output
-				return answer;
+				//return answer;
+				System.out.println("alpha1");
 			}
 			
 		}
