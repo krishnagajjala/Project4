@@ -28,8 +28,8 @@ public class Gradebook {
     assignmentList = new ArrayList<Assignment>();
 
     key = SecureHashRandomThing();
-    students = new ArrayList<String>();
-    assignments = new LinkedHashMap<String,HashMap<String, Integer>>();
+    studentList = new ArrayList<Student>();
+    assignmentList = new ArrayList<Assignment>();
     //pseudo code
     File created = new File(bookName);
     //pseudo create the file in directory output stream
@@ -43,11 +43,12 @@ public class Gradebook {
       key = encrypt(key);
       return plainKey;
   }
-  /* return the number of students*/
+  /* return the number of students */
   public int studentCount() {
     return studentList.size();
   }
 
+  /* return the number of assignments */
   public int assignmentCount() {
       return assignmentList.size();
   }
@@ -58,7 +59,9 @@ public class Gradebook {
         studentList.add(toAdd);
   }
 
-  /* Adds an assignment to the gradebook */
+  /* Adds an assignment to the gradebook,
+    Note: This adds to the totalWeight field.
+  */
   public void addAssignment(String aName, int maxPoints, double weight) {
     Assignment toAdd = new Assignment(aName, maxPoints, weight);
     assignmentList.add(toAdd);
@@ -82,6 +85,7 @@ public class Gradebook {
 
   public String toString() {
 
-    return "";
+    return "Gradebook name: " + this.bookName + "\n" + "Student List: " + studentList.toString() + 
+    "\n" + "Assignment List: " + assignmentList.toString();
   }
 }

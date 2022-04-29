@@ -15,4 +15,8 @@ public class Student {
     public void addGrade(String assignmentName, int receivedGrade) {
         grades.put(assignmentName, receivedGrade);
     }
+
+    public String toString() {
+        return firstName + ", " + lastName + ", " + grades.toString();
+    }
 }
