@@ -73,6 +73,11 @@ public class Gradebook {
             curr.addGrade(aName, grade);
         }
     }
+    for (Assignment curr : assignmentList) {
+        if (curr.name == aName) {
+            curr.addStudentGrade(fName, lName, grade);
+        }
+    }
   }
 
   public String toString() {
