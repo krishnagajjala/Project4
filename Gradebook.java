@@ -15,9 +15,11 @@ public class Gradebook {
     String bookName;
     ArrayList<Student> studentList;
     ArrayList<Assignment> assignmentList;
+    double totalWeight; //CANNOT SURPASS 1
+
     //keyType is TBD
     keyType key; //-> initializes then after requested encrypted and must match to decrypt end-file
-    
+    digestType digest; //->tracks files integrity
   /* Read a Gradebook from a file */
   public Gradebook(String filename) {
     //create a gradebook object
@@ -37,29 +39,40 @@ public class Gradebook {
   /* Returns the keyFirst time, do not call multiple times since the key will be encrypted after first call*/
   public keyType getPlainKeyOneTime() {
       //pseudo code
-      keyType plainKey = requested.key;
-      requested.key = encrypt(key);
+      keyType plainKey = key;
+      key = encrypt(key);
       return plainKey;
   }
-  /* return the size of the gradebook */
-  public int size() {
+  /* return the number of students*/
+  public int studentCount() {
+    return studentList.size();
+  }
 
-    return len;
+  public int assignmentCount() {
+      return assignmentList.size();
   }
 
   /* Adds a student to the gradebook */
-  public void addStudent(...) {
-
+  public void addStudent(String fName, String lName) {
+        Student toAdd = new Student(fName, lName);
+        studentList.add(toAdd);
   }
 
-  /* Adds an assinment to the gradebook */
-  public void addAssignment(...) {
-
+  /* Adds an assignment to the gradebook */
+  public void addAssignment(String aName, int maxPoints, double weight) {
+    Assignment toAdd = new Assignment(aName, maxPoints, weight);
+    assignmentList.add(toAdd);
+    totalWeight += weight;
   }
 
   /* Adds a grade to the gradebook */
-  public void addGrade(...) {
-
+  public void addGrade(String fName, String lName, String aName, int grade) {
+    Student search;
+    for (Student curr : studentList) {
+        if (curr.firstName.equals(fName) && curr.lastName.equals(lName)) {
+            curr.addGrade(aName, grade);
+        }
+    }
   }
 
   public String toString() {
