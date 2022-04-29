@@ -78,25 +78,24 @@ public class setup {
 
         //make the gradebook
         Gradebook created = new Gradebook(requestedName);
-        String GradebookStringData = created.toString();
-        byte[] plaintextGradebookBytes = GradebookStringData.getBytes();
+        //CHANGE TO SERIALIZE
+        byte[] serializedGradebook = Gradebook.serializeGradebook(created);
         //surround encryption with try-catch
         try {
             //encrypt the gradebook and write to disk
-            byte[] ciphertextGradebookBytes = encryptBytes(key, plaintextGradebookBytes);
+            byte[] ciphertextGradebookBytes = encryptBytes(key, serializedGradebook);
             setup.writeFile(requestedName,ciphertextGradebookBytes);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             //something has gone terribly wrong
-            System.out.println("I've got a bade feeling about this... \n");
-            e.printStackTrace();
+            System.out.println("I've got a bad feeling about this... \n");
         }
         
         return;
 
     }
 
-    //helper method to read file and transform into bytes
+    //helper method to read file and transform into bytes; assumes file is in current directory
     public static byte[] readFile(String fileName) throws IOException {
         File toRead = new File("./"+fileName); //ASSUMES FILE IS IN CURRENT DIRECTORY
 

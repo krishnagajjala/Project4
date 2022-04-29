@@ -1,5 +1,11 @@
 
 //import ...
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 /**
  * A helper class for your gradebook
@@ -7,7 +13,7 @@ import java.util.ArrayList;
  * You can remove methods you do not need
  * If you do not wiish to use a Gradebook object, don't
  */
-public class Gradebook {
+public class Gradebook implements Serializable { //going to serialize objects to make it easier to write to files
 
     String bookName;
     ArrayList<Student> studentList;
@@ -60,6 +66,39 @@ public class Gradebook {
         }
     }
   }
+
+  //takes a gradebook and serializes it to bytes to be encrypted
+  public static byte[] serializeGradebook(Gradebook book) {
+    // Reference for stream of bytes
+    byte[] stream = null;
+    // ObjectOutputStream is used to convert a Java object into OutputStream
+    try (ByteArrayOutputStream byteArrayOutput = new ByteArrayOutputStream();
+            ObjectOutputStream outputDest = new ObjectOutputStream(byteArrayOutput);) {
+        outputDest.writeObject(book);
+        stream = byteArrayOutput.toByteArray();
+    } catch (IOException e) {
+        // Error in serialization
+        System.err.println("Serialization went wrong.");
+    }
+    return stream;
+  }
+
+  //takes decrypted bytes as input, turns into a gradebook object
+  public static Gradebook deserializeGradebook(byte[] decryptedInput) {
+    Gradebook book = null;
+
+    try (ByteArrayInputStream byteArrayInput = new ByteArrayInputStream(decryptedInput);
+            ObjectInputStream objectInput = new ObjectInputStream(byteArrayInput);) {
+        book = (Gradebook) objectInput.readObject();
+    } catch (IOException e) {
+        // Error in de-serialization
+        System.err.println("Deserialization went wrong");
+    } catch (ClassNotFoundException e) {
+        // You are converting an invalid stream to Gradebook
+        System.err.println("Invalid stream, not a Gradebook");
+    }
+    return book;
+}
 
   public String toString() {
 
