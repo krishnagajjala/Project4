@@ -17,6 +17,6 @@ public class Student {
     }
 
     public String toString() {
-        return firstName + ", " + lastName + ", " + grades.toString();
+        return firstName + ", " + lastName + ", " + grades.toString() + "\n";
     }
 }

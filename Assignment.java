@@ -21,6 +21,6 @@ public class Assignment {
     }
 
     public String toString() {
-        return name + ", " + maxPoints + ", " + weight + ", " + studentGrades.toString();
+        return name + ", " + maxPoints + ", " + weight + ", " + studentGrades.toString() + "\n";
     }
 }
