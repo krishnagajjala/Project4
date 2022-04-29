@@ -16,7 +16,7 @@ public class Assignment {
     }
 
     public void addStudentGrade(String studentFName, String studentLName, int grade) {
-        String formattedName = studentLName + ", " + studentFName;
+        String formattedName = studentLName + ", " + studentFName; //note space after this comma
         studentGrades.put(formattedName, grade);
     }
 }
