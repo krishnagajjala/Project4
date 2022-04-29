@@ -1,10 +1,9 @@
+
+//import ...
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-
-//import ...
-
 /**
  * A helper class for your gradebook
  * Some of these methods may be useful for your program
@@ -14,52 +13,44 @@ import java.util.LinkedHashMap;
 public class Gradebook {
 
     String bookName;
-    ArrayList<String> students;
-    /* each assignment has a string containing "name, max-points, weight"; pick these fields up by deliminating on 
-     * commas. the hashMap is of string -> integer. where string is name of student and integer is their
-     * grade. 
-    */
-    LinkedHashMap<String,HashMap<String, Integer>> assignments; 
+    ArrayList<Student> studentList;
+    ArrayList<Assignment> assignmentList;
+    double totalWeight; //CANNOT SURPASS 1
+
     //keyType is TBD
     keyType key; //-> initializes then after requested encrypted and must match to decrypt end-file
-  
+    digestType digest; //->tracks files integrity
   /* Read a Gradebook from a file */
   public Gradebook(String filename) {
     //create a gradebook object
     bookName = filename;
-    /*make sure to input the name as "Last, First" -> then check for duplicate names
-    //deliminate based on commas
-    */
+    studentList = new ArrayList<Student>();
+    assignmentList = new ArrayList<Assignment>();
+
     key = SecureHashRandomThing();
-    students = new ArrayList<String>();
-    assignments = new LinkedHashMap<String,HashMap<String, Integer>>();
+    studentList = new ArrayList<Student>();
+    assignmentList = new ArrayList<Assignment>();
     //pseudo code
     File created = new File(bookName);
+    //pseudo create the file in directory output stream
     created.pushToOutputStream;
   }
 
-  /* Create a new gradebook */
-  public Gradebook() {
-    bookName = "";
-    key = SecureHashRandomThing();
-    students = new ArrayList<String>();
-    assignments = new LinkedHashMap<String,HashMap<String, Integer>>();
-    //pseudo code
-    File created = new File(bookName);
-    created.pushToOutputStream; //create the file in directory output stream
-  }
-
   /* Returns the keyFirst time, do not call multiple times since the key will be encrypted after first call*/
-  public keyType getPlainKeyOneTime(Gradebook requested) {
+  public keyType getPlainKeyOneTime() {
       //pseudo code
-      keyType plainKey = requested.key;
-      requested.key = encrypt(key);
+      keyType plainKey = key;
+      key = encrypt(key);
       return plainKey;
   }
-  /* return the size of the gradebook */
-  public int size() {
+  /* return the number of students */
+  public int studentCount() {
+    return studentList.size();
+  }
 
-    return len;
+  /* return the number of assignments */
+  public int assignmentCount() {
+      return assignmentList.size();
   }
   /* Return Assignment if exists*/
   public Assignment findAssignment(String name) {
@@ -82,6 +73,7 @@ public class Gradebook {
   }
 
   /* Adds a student to the gradebook */
+
   public void addStudent(String first, String last) {
 
     // Student is already found
@@ -116,12 +108,18 @@ public class Gradebook {
     if (this.students.isEmpty()){
       this.students = new LinkedHashMap<String, Student>();
     }
-  }
-
-  /* Adds an assinment to the gradebook */
-  public void addAssignment(...) {
 
   }
+
+  /* Adds an assignment to the gradebook,
+    Note: This adds to the totalWeight field.
+  */
+  public void addAssignment(String aName, int maxPoints, double weight) {
+    Assignment toAdd = new Assignment(aName, maxPoints, weight);
+    assignmentList.add(toAdd);
+    totalWeight += weight;
+  }
+
 
   /* Adds an assinment to the gradebook */
   public void addAssignment(...) {
@@ -156,6 +154,7 @@ public class Gradebook {
   }
   public String toString() {
 
-    return "";
+    return "Gradebook name: " + this.bookName + "\n" + "Student List: " + studentList.toString() + 
+    "\n" + "Assignment List: " + assignmentList.toString();
   }
 }
