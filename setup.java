@@ -73,7 +73,7 @@ public class setup {
         for (int i = 0; i < KEY_LENGTH; i++) {
             key += ascii.charAt(passwordPicker.nextInt(ascii.length()));
         }
-        System.out.println("Key is: " + key + "\n");
+        System.out.println(key);
 
         //make the gradebook
         Gradebook created = new Gradebook(requestedName);

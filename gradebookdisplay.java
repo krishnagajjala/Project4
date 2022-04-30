@@ -62,10 +62,10 @@ public class gradebookdisplay {
 		} 
 		
 		
-		System.out.println("\nNumber Of Arguments Passed: %d" + args.length);
-		System.out.println("----Following Are The Command Line Arguments Passed----");
-		for (int counter = 0; counter < args.length; counter++)
-			System.out.println("args[" + counter + "]: " + args[counter]);
+//		System.out.println("\nNumber Of Arguments Passed: %d" + args.length);
+//		System.out.println("----Following Are The Command Line Arguments Passed----");
+//		for (int counter = 0; counter < args.length; counter++)
+//			System.out.println("args[" + counter + "]: " + args[counter]);
 		
 		
 		// Decide what is the setting we are in
@@ -108,8 +108,8 @@ public class gradebookdisplay {
 				//System.out.println("grade");
 			} else {
 				test.studentGrades.entrySet().stream()
-                .sorted((k1, k2) -> -k1.getKey().firstName.compareTo(k2.getKey().firstName))
-                .sorted((k1, k2) -> -k1.getKey().lastName.compareTo(k2.getKey().lastName))
+                .sorted((k1, k2) -> k1.getKey().firstName.compareTo(k2.getKey().firstName))
+                .sorted((k1, k2) -> k1.getKey().lastName.compareTo(k2.getKey().lastName))
                 .forEach(k -> System.out.println("(" +k.getKey().lastName + ", " + k.getKey().firstName+ ", "+ k.getValue()+ ")" ));
 				//System.out.println("alpha");
 			}
@@ -148,10 +148,14 @@ public class gradebookdisplay {
 				System.out.println("invalid");
 				System.exit(255);
 		    }
-			
-		    test.grades.entrySet().stream()
-            .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
-            .forEach(k -> System.out.println("(" +k.getKey() + ", "+ k.getValue()+ ")" ));
+		    
+		    
+			for (Assignment assign : myGB.assignmentList) {
+				System.out.println("(" +assign.name + ", "+ assign.studentGrades.get(test)+ ")" );
+			}
+//		    test.grades.entrySet().stream()
+//            .sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
+//            .forEach(k -> System.out.println("(" +k.getKey() + ", "+ k.getValue()+ ")" ));
 			
 		}
 		if (args[4].equals("-PF")) {
@@ -174,9 +178,9 @@ public class gradebookdisplay {
 				    Student key = entry.getKey();
 				    int value = entry.getValue();
 				    if(finalgrades.containsKey(key)) {
-				    	finalgrades.put(key, finalgrades.get(key) + ((double)value*assign.weight));
+				    	finalgrades.put(key, finalgrades.get(key) + (((double)value/(double)assign.maxPoints)*assign.weight));
 				    } else {
-				    	finalgrades.put(key, ((double)value*assign.weight));
+				    	finalgrades.put(key, (((double)value/(double)assign.maxPoints)*assign.weight));
 				    }
 				}
 			}
@@ -188,10 +192,10 @@ public class gradebookdisplay {
 				//System.out.println("grade");
 			} else {
 				finalgrades.entrySet().stream()
-                .sorted((k1, k2) -> -k1.getKey().firstName.compareTo(k2.getKey().firstName))
-                .sorted((k1, k2) -> -k1.getKey().lastName.compareTo(k2.getKey().lastName))
+                .sorted((k1, k2) -> k1.getKey().firstName.compareTo(k2.getKey().firstName))
+                .sorted((k1, k2) -> k1.getKey().lastName.compareTo(k2.getKey().lastName))
                 .forEach(k -> System.out.println("(" +k.getKey().lastName + ", " + k.getKey().firstName+ ", "+ k.getValue()+ ")" ));
-				System.out.println("alpha");
+				//System.out.println("alpha");
 			}
 			
 		}

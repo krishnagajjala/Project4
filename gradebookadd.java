@@ -55,12 +55,12 @@ public class gradebookadd {
 			System.exit(255);
 		} 
 		
-		System.out.println("\nNumber Of Arguments Passed: " + args.length);
-		System.out.println("----Following Are The Command Line Arguments Passed----");
-		for (int counter = 0; counter < args.length; counter++)
-			System.out.println("args[" + counter + "]: " + args[counter]);
-		
-		
+//		System.out.println("\nNumber Of Arguments Passed: " + args.length);
+//		System.out.println("----Following Are The Command Line Arguments Passed----");
+//		for (int counter = 0; counter < args.length; counter++)
+//			System.out.println("args[" + counter + "]: " + args[counter]);
+//		
+//		System.out.println("---------------------------------");
 		// Decide what is the setting we are in
 		
 		if (args[4].equals("-AA")) {
