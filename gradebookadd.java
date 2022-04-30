@@ -171,8 +171,11 @@ public class gradebookadd {
 				System.exit(255);
 		    }
 		    // Add Student
-		    myGB.studentList.add(new Student(fName, lName));
-			
+		    test = new Student(fName, lName);
+			for (Assignment assign : myGB.assignmentList) {
+				assign.studentGrades.put(test, 0);
+			}
+		    myGB.studentList.add(test);
 
 		}
 		if (args[4].equals("-DS")) {
@@ -211,6 +214,9 @@ public class gradebookadd {
 				System.exit(255);
 		    }
 		    // Remove Student
+			for (Assignment assign : myGB.assignmentList) {
+				assign.studentGrades.remove(test);
+			}
 		    myGB.studentList.remove(test);
 		}
 		if (args[4].equals("-AG")) {
