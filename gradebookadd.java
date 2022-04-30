@@ -5,6 +5,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.Map.Entry;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -95,8 +96,12 @@ public class gradebookadd {
 				System.out.println("invalid");
 				System.exit(255);
 		    }
-		    myGB.addAssignment(assignName, points, weight);
-			
+		    Assignment toAdd = new Assignment(assignName, points, weight);
+			for (Student stud : myGB.studentList) {
+				toAdd.studentGrades.put(stud, 0);
+			}
+			myGB.assignmentList.add(toAdd);
+			myGB.totalWeight += weight;
 			
 		}
 		if (args[4].equals("-DA")) {
